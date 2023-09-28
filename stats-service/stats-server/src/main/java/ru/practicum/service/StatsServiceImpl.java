@@ -4,16 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.EndpointHitDto;
+import ru.practicum.GetStatsDto;
+import ru.practicum.ViewStatsDto;
 import ru.practicum.model.EndpointHit;
-import ru.practicum.model.ViewStats;
 import ru.practicum.repository.EndpointHitRepository;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static ru.practicum.mapper.EndpointHitMapper.*;
 
 @Service
 @Slf4j
@@ -23,43 +24,37 @@ public class StatsServiceImpl implements StatsService {
 
     private final EndpointHitRepository endpointHitRepository;
 
+    @Transactional
     @Override
-    public void addHit(EndpointHit endpointHit) {
-        endpointHitRepository.save(endpointHit);
+    public EndpointHitDto saveHit(EndpointHitDto endpointHitDto) {
+        EndpointHit endpointHit = toEndpointHit(endpointHitDto);
+        log.info("Save endpoint hit.");
+        return toEndpointHitDto(endpointHitRepository.save(endpointHit));
     }
 
     @Override
-    public List<ViewStats> getStats(String start, String end, List<String> uris, Boolean unique) {
-        LocalDateTime startStat;
-        LocalDateTime endStat;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public List<ViewStatsDto> getViewStats(GetStatsDto getStatsDto) {
+        if (getStatsDto == null) {
+            log.error("getStatsDto is null in getViewStats method.");
+            return Collections.emptyList();
+        }
 
-        startStat = LocalDateTime.parse(URLDecoder.decode(start, StandardCharsets.UTF_8), formatter);
-        endStat = LocalDateTime.parse(URLDecoder.decode(end, StandardCharsets.UTF_8), formatter);
+        LocalDateTime startDate = LocalDateTime.parse(getStatsDto.getStart(), DATE_TIME_FORMATTER);
+        LocalDateTime endDate = LocalDateTime.parse(getStatsDto.getEnd(), DATE_TIME_FORMATTER);
 
-        List<EndpointHit> endpointHits = endpointHitRepository.findAllByTimestampBetweenAndUriIn(startStat, endStat, uris);
-        Long hits = (long) endpointHits.size();
-        List<EndpointHit> endpointHits1 = endpointHitRepository.findDistinctByTimestampBetweenAndUriIn(startStat, endStat, uris);
-        Long hitsDistinct = (long) endpointHits1.size();
+        List<ViewStatsDto> viewStats;
+        List<String> uris = getStatsDto.getUris();
 
-        if (unique) {
-            return addViewStatsByHits(uris, hitsDistinct);
+        if (uris == null || uris.isEmpty()) {
+            viewStats = (getStatsDto.getUnique()
+                    ? endpointHitRepository.getStatsUniqueByTime(startDate, endDate)
+                    : endpointHitRepository.getAllStatsByTime(startDate, endDate));
         } else {
-            return addViewStatsByHits(uris, hits);
+            viewStats = (getStatsDto.getUnique()
+                    ? endpointHitRepository.getStatsUniqueByTimeAndUris(startDate, endDate, uris)
+                    : endpointHitRepository.getStatsByTimeAndUris(startDate, endDate, uris));
         }
+        return viewStats;
     }
 
-    private List<ViewStats> addViewStatsByHits(List<String> uris, Long hits) {
-        List<ViewStats> views = new ArrayList<>();
-        for (String uri : uris) {
-            String app = "ewm-service";
-            ViewStats viewStats = ViewStats.builder()
-                    .app(app)
-                    .uri(uri)
-                    .hits(hits)
-                    .build();
-            views.add(viewStats);
-        }
-        return views;
-    }
 }

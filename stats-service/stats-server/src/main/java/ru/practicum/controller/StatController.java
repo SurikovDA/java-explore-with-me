@@ -2,31 +2,34 @@ package ru.practicum.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.model.EndpointHit;
-import ru.practicum.model.ViewStats;
+import ru.practicum.EndpointHitDto;
+import ru.practicum.GetStatsDto;
+import ru.practicum.ViewStatsDto;
 import ru.practicum.service.StatsService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @Slf4j
 public class StatController {
-    private final StatsService statsService;
+
+    private final StatsService endpointHitService;
 
     @PostMapping("/hit")
-    public void addHit(@RequestBody EndpointHit endpointHit) {
-        log.info("Получен запрос POST /hit");
-        statsService.addHit(endpointHit);
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public EndpointHitDto saveHit(@RequestBody @Valid EndpointHitDto endpointHitDto) {
+        return endpointHitService.saveHit(endpointHitDto);
     }
 
-    @GetMapping("/stats")
-    public List<ViewStats> getStats(@RequestParam String start,
-                                    @RequestParam String end,
-                                    @RequestParam List<String> uris,
-                                    @RequestParam(defaultValue = "false") Boolean unique) {
-        log.info("Получен запрос GET /stats");
-        return statsService.getStats(start, end, uris, unique);
+    @GetMapping("stats")
+    public List<ViewStatsDto> getViewStats(@RequestParam String start,
+                                           @RequestParam String end,
+                                           @RequestParam(required = false) List<String> uris,
+                                           @RequestParam(defaultValue = "false") Boolean unique) {
+        return endpointHitService.getViewStats(new GetStatsDto(start, end, uris, unique));
     }
 }
