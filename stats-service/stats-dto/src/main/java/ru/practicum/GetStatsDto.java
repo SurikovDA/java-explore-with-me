@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -12,9 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 public class GetStatsDto {
     @NotNull
-    private String start;
+    private LocalDateTime start;
     @NotNull
-    private String end;
+    private LocalDateTime end;
     private List<String> uris;
     private Boolean unique;
 }

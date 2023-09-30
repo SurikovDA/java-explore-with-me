@@ -39,8 +39,8 @@ public class StatsServiceImpl implements StatsService {
             return Collections.emptyList();
         }
 
-        LocalDateTime startDate = LocalDateTime.parse(getStatsDto.getStart(), DATE_TIME_FORMATTER);
-        LocalDateTime endDate = LocalDateTime.parse(getStatsDto.getEnd(), DATE_TIME_FORMATTER);
+        LocalDateTime startDate = getStatsDto.getStart();
+        LocalDateTime endDate = getStatsDto.getEnd();
 
         List<ViewStatsDto> viewStats;
         List<String> uris = getStatsDto.getUris();

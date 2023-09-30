@@ -10,7 +10,10 @@ import ru.practicum.ViewStatsDto;
 import ru.practicum.service.StatsService;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static ru.practicum.mapper.EndpointHitMapper.DATE_TIME_FORMATTER;
 
 @RestController
 @AllArgsConstructor
@@ -30,6 +33,8 @@ public class StatController {
                                            @RequestParam String end,
                                            @RequestParam(required = false) List<String> uris,
                                            @RequestParam(defaultValue = "false") Boolean unique) {
-        return endpointHitService.getViewStats(new GetStatsDto(start, end, uris, unique));
+        LocalDateTime startDate = LocalDateTime.parse(start, DATE_TIME_FORMATTER);
+        LocalDateTime endDate = LocalDateTime.parse(end, DATE_TIME_FORMATTER);
+        return endpointHitService.getViewStats(new GetStatsDto(startDate, endDate, uris, unique));
     }
 }
