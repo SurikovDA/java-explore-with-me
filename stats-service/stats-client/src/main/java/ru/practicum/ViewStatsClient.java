@@ -10,7 +10,6 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,11 +28,10 @@ public class ViewStatsClient extends BaseClient {
 
     public ResponseEntity<Object> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
         Map<String, Object> parameters;
-        List<String> emptyList = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String dateTimeStart = start.format(formatter);
         String dateTimeEnd = end.format(formatter);
-        if (uris != emptyList) {
+        if (uris != null && !uris.isEmpty()) {
             parameters = Map.of(
                     "start", dateTimeStart,
                     "end", dateTimeEnd,
