@@ -1,6 +1,6 @@
 package ru.practicum.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +18,8 @@ import static ru.practicum.mapper.EndpointHitMapper.*;
 
 @Service
 @Slf4j
-@AllArgsConstructor
-@Transactional
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class StatsServiceImpl implements StatsService {
 
     private final EndpointHitRepository endpointHitRepository;
@@ -58,5 +58,4 @@ public class StatsServiceImpl implements StatsService {
         }
         return viewStats;
     }
-
 }
