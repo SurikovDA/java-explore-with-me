@@ -15,12 +15,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StatController {
 
-    private final StatsService StatsService;
+    private final StatsService statsService;
 
     @PostMapping("/hit")
     @ResponseStatus(value = HttpStatus.CREATED)
     public EndpointHitDto saveHit(@RequestBody @Valid EndpointHitDto endpointHitDto) {
-        return StatsService.saveHit(endpointHitDto);
+        return statsService.saveHit(endpointHitDto);
     }
 
     @GetMapping("stats")
@@ -28,6 +28,6 @@ public class StatController {
                                            @RequestParam String end,
                                            @RequestParam(required = false) List<String> uris,
                                            @RequestParam(defaultValue = "false") Boolean unique) {
-        return StatsService.getViewStats(new GetStatsDto(start, end, uris, unique));
+        return statsService.getViewStats(new GetStatsDto(start, end, uris, unique));
     }
 }
