@@ -1,21 +1,19 @@
 package ru.practicum.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetStatsDto {
     @NotNull
-    private LocalDateTime start;
+    private String start;
     @NotNull
-    private LocalDateTime end;
+    private String end;
     private List<String> uris;
     private Boolean unique;
 }

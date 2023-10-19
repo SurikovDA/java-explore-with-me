@@ -1,7 +1,7 @@
 package ru.practicum.controller;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.dto.EndpointHitDto;
@@ -10,14 +10,10 @@ import ru.practicum.dto.ViewStatsDto;
 import ru.practicum.service.StatsService;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
-import static ru.practicum.mapper.EndpointHitMapper.DATE_TIME_FORMATTER;
-
 @RestController
-@AllArgsConstructor
-@Slf4j
+@RequiredArgsConstructor
 public class StatController {
 
     private final StatsService endpointHitService;
@@ -33,8 +29,6 @@ public class StatController {
                                            @RequestParam String end,
                                            @RequestParam(required = false) List<String> uris,
                                            @RequestParam(defaultValue = "false") Boolean unique) {
-        LocalDateTime startDate = LocalDateTime.parse(start, DATE_TIME_FORMATTER);
-        LocalDateTime endDate = LocalDateTime.parse(end, DATE_TIME_FORMATTER);
-        return endpointHitService.getViewStats(new GetStatsDto(startDate, endDate, uris, unique));
+        return endpointHitService.getViewStats(new GetStatsDto(start, end, uris, unique));
     }
 }

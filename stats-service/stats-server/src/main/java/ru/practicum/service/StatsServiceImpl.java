@@ -38,10 +38,12 @@ public class StatsServiceImpl implements StatsService {
             log.error("getStatsDto is null in getViewStats method.");
             return Collections.emptyList();
         }
+        LocalDateTime startDate = LocalDateTime.parse(getStatsDto.getStart(), DATE_TIME_FORMATTER);
+        LocalDateTime endDate = LocalDateTime.parse(getStatsDto.getEnd(), DATE_TIME_FORMATTER);
 
-        LocalDateTime startDate = getStatsDto.getStart();
-        LocalDateTime endDate = getStatsDto.getEnd();
-
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("Неверно выбран период");
+        }
         List<ViewStatsDto> viewStats;
         List<String> uris = getStatsDto.getUris();
 
