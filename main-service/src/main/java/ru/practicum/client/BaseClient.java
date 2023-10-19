@@ -1,4 +1,4 @@
-package ru.practicum.Client;
+package ru.practicum.client;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

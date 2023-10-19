@@ -1,4 +1,4 @@
-package ru.practicum.Client;
+package ru.practicum.client;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
