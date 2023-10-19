@@ -1,4 +1,4 @@
-package ru.practicum;
+package ru.practicum.category.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ViewStatsDto {
-    private String app;
-    private String uri;
-    private Long hits;
+public class CategoryDto {
+    private String name;
 }

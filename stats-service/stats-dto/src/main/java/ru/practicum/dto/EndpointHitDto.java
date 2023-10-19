@@ -1,19 +1,18 @@
-package ru.practicum;
+package ru.practicum.dto;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class EndpointHitDto {
-    private Long id;
     @NotBlank
     private String app;
     @NotBlank

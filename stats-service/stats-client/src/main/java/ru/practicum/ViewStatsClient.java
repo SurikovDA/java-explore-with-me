@@ -1,51 +1,50 @@
 package ru.practicum;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import ru.practicum.dto.EndpointHitDto;
+import ru.practicum.dto.ViewStatsDto;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
 @Service
-public class ViewStatsClient extends BaseClient {
-    private static final String API_PREFIX = "/stats";
+public class ViewStatsClient {
+    private final RestTemplate restTemplate = new RestTemplate();
 
-    @Autowired
-    public ViewStatsClient(@Value("${stats-server.url}") String serverUrl, RestTemplateBuilder builder) {
-        super(builder
-                .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
-                .requestFactory(HttpComponentsClientHttpRequestFactory::new)
-                .build()
-        );
+    @Value("${stats-server.url}")
+    private String absoluteUrl;
+    private final WebClient webClient = WebClient.builder()
+            .baseUrl(absoluteUrl)
+            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .build();
+
+
+    public void addHit(EndpointHitDto endpointHitDto) {
+        System.out.println(absoluteUrl);
+        restTemplate.postForLocation(absoluteUrl + "/hit", endpointHitDto);
     }
 
-    public ResponseEntity<Object> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
-        Map<String, Object> parameters;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String dateTimeStart = start.format(formatter);
-        String dateTimeEnd = end.format(formatter);
-        if (uris != null && !uris.isEmpty()) {
-            parameters = Map.of(
-                    "start", dateTimeStart,
-                    "end", dateTimeEnd,
-                    "uris", String.join(",", uris),
-                    "unique", unique
-            );
-            return get("?start={start}&end={end}&uris={uris}&unique={unique}", parameters);
-        } else {
-            parameters = Map.of(
-                    "start", dateTimeStart,
-                    "end", dateTimeEnd,
-                    "unique", unique
-            );
-            return get("?start={start}&end={end}&unique={unique}", parameters);
+
+    public List<ViewStatsDto> getStats(String start, String end, List<String> uris, boolean unique) {
+        StringBuilder urisToSend = new StringBuilder();
+        for (String uri : uris) {
+            urisToSend.append(uri).append(",");
         }
+        ResponseEntity<List<ViewStatsDto>> response = restTemplate.exchange(
+                absoluteUrl + "/stats?start={start}&end={end}&uris={uris}&unique={unique}",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {
+                },
+                start, end, urisToSend.toString(), unique);
+
+        return response.getBody();
     }
 }
