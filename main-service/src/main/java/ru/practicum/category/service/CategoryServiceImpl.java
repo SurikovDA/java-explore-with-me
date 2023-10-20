@@ -16,7 +16,7 @@ import ru.practicum.category.repository.CategoryRepository;
 import ru.practicum.exception.ConflictException;
 import ru.practicum.exception.EntityNotFoundException;
 
-import static ru.practicum.category.mapper.CategoryMapper.toCategoriesListDto;
+import static ru.practicum.category.mapper.CategoryMapper.toCategoriesPageDto;
 
 @Service
 @Slf4j
@@ -64,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
             page = from / size;
         }
         log.info("Получен список всех категорий.");
-        return toCategoriesListDto(categoryRepository.findAll(PageRequest.of(page, size)));
+        return toCategoriesPageDto(categoryRepository.findAll(PageRequest.of(page, size)));
     }
 
     @Override
