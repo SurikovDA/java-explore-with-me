@@ -15,6 +15,7 @@ import ru.practicum.category.mapper.CategoryMapper;
 import ru.practicum.category.model.Category;
 import ru.practicum.category.repository.CategoryRepository;
 import ru.practicum.exception.ConflictException;
+import ru.practicum.exception.EntityNotFoundException;
 import ru.practicum.exception.UserNotFoundException;
 
 import static ru.practicum.category.mapper.CategoryMapper.toCategoriesListDto;
@@ -33,7 +34,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (optionalCategory.isPresent()) {
             throw new ConflictException("Имя уже занято");
         }
-        log.info("Категория сохранена.");
+        log.info("Категория {}, передана на сохранение", categoryDto.getName());
         return categoryRepository.save(CategoryMapper.toCategory(categoryDto));
     }
 
@@ -41,19 +42,19 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public void removeCategory(Long id) {
         categoryRepository.deleteById(id);
-        log.info("Категория удалена.");
+        log.info("Категория id = {} удалена.", id);
     }
 
     @Override
     @Transactional
     public Category updateCategory(Long id, CategoryDto categoryDto) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Категория не найдена"));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Категория не найдена"));
         Optional<Category> optionalCategory = categoryRepository.findByName(categoryDto.getName());
         if (optionalCategory.isPresent() && !Objects.equals(optionalCategory.get().getId(), category.getId())) {
             throw new ConflictException("Имя уже занято");
         }
         category.setName(categoryDto.getName());
-        log.info("Данные категории обновлены.");
+        log.info("Данные категории c id = {} переданы на обновление.", id);
         return categoryRepository.save(category);
     }
 
@@ -74,6 +75,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional(readOnly = true)
     public Category getById(Long id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Категория не найдена"));
+        return categoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Категория не найдена"));
     }
 }

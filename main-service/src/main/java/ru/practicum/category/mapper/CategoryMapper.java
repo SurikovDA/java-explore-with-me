@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 public class CategoryMapper {
     public static Category toCategory(CategoryDto categoryDto) {
         return Category.builder()
-                .id(null)
                 .name(categoryDto.getName())
                 .build();
     }
