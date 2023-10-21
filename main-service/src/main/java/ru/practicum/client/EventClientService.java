@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 public class EventClientService {
-    public List<EventShortDto> makeEventShortDto(Collection<Event> events, Map<String, Long> viewStatsMap
-            , Map<Long, Long> confirmedRequests) {
+    public List<EventShortDto> makeEventShortDto(Collection<Event> events, Map<String, Long> viewStatsMap,
+                                                 Map<Long, Long> confirmedRequests) {
         List<EventShortDto> eventsDto = new ArrayList<>();
         for (Event event : events) {
             Long eventId = event.getId();
