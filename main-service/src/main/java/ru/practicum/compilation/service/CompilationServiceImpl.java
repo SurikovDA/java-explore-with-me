@@ -72,9 +72,6 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     @Transactional(readOnly = true)
     public List<CompilationDto> getCompilationsByPinned(Boolean pinned, Integer from, Integer size) {
-        if (size <= 0 || from < 0) {
-            throw new IllegalReceiveException("Неверно указан параметр");
-        }
         List<Compilation> compilations;
         if (pinned != null) {
             compilations = compilationsRepository.findAllByPinned(pinned, PageRequest.of(from / size, size));

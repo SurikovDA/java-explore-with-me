@@ -19,9 +19,9 @@ public class CategoryControllerPublic {
 
     @GetMapping
     public List<Category> getAll(@RequestParam(value = "from", defaultValue = "0", required = false)
-                                 @Positive Integer from,
+                                 @PositiveOrZero Integer from,
                                  @RequestParam(value = "size", defaultValue = "10", required = false)
-                                 @PositiveOrZero Integer size) {
+                                 @Positive Integer size) {
         log.info("Получен запрос GET /categories?from={}&size={}", from, size);
         return categoryService.findAllCategory(from, size);
     }

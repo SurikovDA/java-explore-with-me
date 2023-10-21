@@ -21,8 +21,6 @@ public interface EventService {
 
     EventFullDto updateEvent(Long eventId, UpdateEventAdminRequest updateEventAdminRequest);
 
-    NewEventDto updateEventCurrentUser(Long userId, Long eventId, NewEventDto newEventDto);
-
     NewEventDto getInfoEventByCurrentUser(Long userId, Long eventId);
 
     NewEventDto updateStatusEvent(Long userId, Long eventId);

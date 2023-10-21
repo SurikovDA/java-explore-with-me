@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.practicum.ViewStatsClient;
 import ru.practicum.event.dto.ConfirmedEventDto;
 import ru.practicum.event.dto.EventShortDto;
-import ru.practicum.event.mapper.EventMapper;
 import ru.practicum.event.model.Event;
 import ru.practicum.event.model.RequestStatus;
 import ru.practicum.request.repository.ParticipationRequestRepository;
@@ -26,6 +25,7 @@ public class EventClient {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final ParticipationRequestRepository requestRepository;
     private final ViewStatsClient viewStatsClient;
+    private final EventClientService eventClientService;
 
 
     public static String formatTimeToString(LocalDateTime time) {
@@ -37,23 +37,7 @@ public class EventClient {
 
         Map<Long, Long> confirmedRequests = getConfirmedRequests(events);
 
-        List<EventShortDto> eventsDto = new ArrayList<>();
-        for (Event event : events) {
-            Long eventId = event.getId();
-            Long reqCount = confirmedRequests.get(eventId);
-            Long views = viewStatsMap.get(String.format("/events/%s", eventId));
-            if (reqCount == null) {
-                reqCount = 0L;
-            }
-            if (views == null) {
-                views = 0L;
-            }
-            eventsDto.add(
-                    EventMapper.toEventDtoShort(event, reqCount, views)
-            );
-        }
-
-        return eventsDto;
+        return eventClientService.makeEventShortDto(events, viewStatsMap, confirmedRequests);
     }
 
     public Map<String, Long> toViewStats(Collection<Event> events) {

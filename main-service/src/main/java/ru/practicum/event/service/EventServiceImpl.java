@@ -192,11 +192,6 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public NewEventDto updateEventCurrentUser(Long userId, Long eventId, NewEventDto newEventDto) {
-        return null;
-    }
-
-    @Override
     public NewEventDto getInfoEventByCurrentUser(Long userId, Long eventId) {
         return null;
     }
