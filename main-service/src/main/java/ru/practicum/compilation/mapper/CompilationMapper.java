@@ -8,6 +8,7 @@ import ru.practicum.compilation.dto.UpdateCompilationRequest;
 import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.event.model.Event;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,9 +17,8 @@ public class CompilationMapper {
     public static Compilation toCompilation(NewCompilationDto newCompilationDto) {
         return Compilation
                 .builder()
-                .id(null)
                 .title(newCompilationDto.getTitle())
-                .events(null)
+                .events(new HashSet<>())
                 .pinned(newCompilationDto.isPinned())
                 .build();
     }
@@ -41,6 +41,5 @@ public class CompilationMapper {
             compilation.setEvents(events);
         }
         compilation.setPinned(updateCompilationRequest.getPinned());
-
     }
 }
