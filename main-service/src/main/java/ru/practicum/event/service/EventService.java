@@ -28,7 +28,7 @@ public interface EventService {
     EventFullDto getEventByIdPublic(Long eventId, String ip, String uri);
 
     List<EventShortDto> getEventsPublicController(String text, List<Long> categoryIds, Boolean paid, LocalDateTime start,
-                                                  LocalDateTime end, Boolean onlyAvailable, String sort, String ip, String uri, Integer from, Integer size);
+                                                  LocalDateTime end, Boolean onlyAvailable, String sort, Integer from, Integer size);
 
     EventFullDto getEventByIdByInitiator(Long eventId, Long userId);
 

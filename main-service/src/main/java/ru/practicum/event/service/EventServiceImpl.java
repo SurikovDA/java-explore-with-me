@@ -204,14 +204,8 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional(readOnly = true)
     public List<EventShortDto> getEventsPublicController(String text, List<Long> categoryIds, Boolean paid, LocalDateTime start,
-                                                         LocalDateTime end, Boolean onlyAvailable, String sort, String ip, String uri, Integer from, Integer size
+                                                         LocalDateTime end, Boolean onlyAvailable, String sort, Integer from, Integer size
     ) {
-        viewStatsClient.addHit(new EndpointHitDto(
-                APP,
-                uri,
-                ip,
-                EventClient.formatTimeToString(LocalDateTime.now())
-        ));
         if (start == null) {
             start = LocalDateTime.now();
         }

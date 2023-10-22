@@ -3,6 +3,9 @@ package ru.practicum.event.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.ViewStatsClient;
+import ru.practicum.client.EventClient;
+import ru.practicum.dto.EndpointHitDto;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.event.service.EventService;
@@ -20,6 +23,8 @@ import java.time.LocalDateTime;
 public class EventControllerPublic {
 
     private final EventService eventService;
+    private final ViewStatsClient viewStatsClient;
+    private static final String APP = "ewm-main-service";
 
     @GetMapping
     public List<EventShortDto> getEvents(
@@ -36,8 +41,16 @@ public class EventControllerPublic {
             @RequestParam(required = false) Boolean onlyAvailable,
             @RequestParam(required = false) String sort
     ) {
+        String uri = request.getRequestURI();
+        String ip = request.getRemoteAddr();
+        viewStatsClient.addHit(new EndpointHitDto(
+                APP,
+                uri,
+                ip,
+                EventClient.formatTimeToString(LocalDateTime.now())
+        ));
         return eventService.getEventsPublicController(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort,
-                request.getRemoteAddr(), request.getRequestURI(), from, size);
+                from, size);
     }
 
     @GetMapping(path = "/{eventId}")
