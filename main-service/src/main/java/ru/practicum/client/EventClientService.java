@@ -9,10 +9,10 @@ import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.event.mapper.EventMapper;
 import ru.practicum.event.model.Event;
 import ru.practicum.event.model.RequestStatus;
-import ru.practicum.mapper.EndpointHitMapper;
 import ru.practicum.request.repository.ParticipationRequestRepository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,11 +23,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EventClientService {
     private static final String START = "1970-01-01 00:00:00";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final ParticipationRequestRepository requestRepository;
     private final ViewStatsClient viewStatsClient;
 
     public static String formatTimeToString(LocalDateTime time) {
-        return time.format(EndpointHitMapper.DATE_TIME_FORMATTER);
+        return time.format(FORMATTER);
     }
 
     public List<EventShortDto> makeEventShort(Collection<Event> events) {
@@ -60,7 +61,7 @@ public class EventClientService {
 
         List<ViewStatsDto> viewStats = viewStatsClient.getStats(
                 START,
-                LocalDateTime.now().format(EndpointHitMapper.DATE_TIME_FORMATTER),
+                LocalDateTime.now().format(FORMATTER),
                 urisToSend,
                 true
         );
