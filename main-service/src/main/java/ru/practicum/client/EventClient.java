@@ -37,7 +37,7 @@ public class EventClient {
 
         Map<Long, Long> confirmedRequests = getConfirmedRequests(events);
 
-        return eventClientService.makeEventShortDto(events, viewStatsMap, confirmedRequests);
+        return eventClientService.makeEventShort(events, viewStatsMap, confirmedRequests);
     }
 
     public Map<String, Long> toViewStats(Collection<Event> events) {

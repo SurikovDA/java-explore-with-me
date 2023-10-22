@@ -1,5 +1,6 @@
 package ru.practicum.client;
 
+import org.springframework.stereotype.Service;
 import ru.practicum.event.dto.EventShortDto;
 import ru.practicum.event.mapper.EventMapper;
 import ru.practicum.event.model.Event;
@@ -9,9 +10,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class EventClientService {
-    public List<EventShortDto> makeEventShortDto(Collection<Event> events, Map<String, Long> viewStatsMap,
-                                                 Map<Long, Long> confirmedRequests) {
+    public List<EventShortDto> makeEventShort(Collection<Event> events, Map<String, Long> viewStatsMap,
+                                              Map<Long, Long> confirmedRequests) {
         List<EventShortDto> eventsDto = new ArrayList<>();
         for (Event event : events) {
             Long eventId = event.getId();
