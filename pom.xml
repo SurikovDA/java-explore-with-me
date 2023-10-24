@@ -11,6 +11,7 @@
 	</parent>
 
 	<name>Explore With Me</name>
+
 	<modules>
 		<module>main-service</module>
 		<module>stats-service</module>
@@ -25,13 +26,6 @@
 		<java.version>11</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-	</dependencies>
 
 	<build>
 		<pluginManagement>
@@ -194,5 +188,4 @@
 			</build>
 		</profile>
 	</profiles>
-
 </project>
