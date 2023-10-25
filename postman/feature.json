@@ -89,10 +89,12 @@
           "raw": "{\r\n    \"text\": \"Not User\"\r\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/users/:userId/comments?eventId=0",
+          "raw": "http://localhost:8080/users/:userId/comments?eventId=0",
+          "protocol": "http",
           "host": [
-            "{{baseUrl}}"
+            "localhost"
           ],
+          "port": "8080",
           "path": [
             "users",
             ":userId",
