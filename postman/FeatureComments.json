@@ -1,0 +1,118 @@
+{
+  "info": {
+    "_postman_id": "55bc9c5c-ab47-47c5-8b0b-9575382817fc",
+    "name": "\"Explore With Me\" FeatureComments",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "27017638"
+  },
+  "item": [
+    {
+      "name": "addComment empty text",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status must be 400\", function () {\r",
+              "    pm.response.to.be.badRequest;    \r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response must contains body in json format\", function () {   \r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "const target = pm.response.json();"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"text\": \"\"\r\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/:userId/comments?eventId=0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            ":userId",
+            "comments"
+          ],
+          "query": [
+            {
+              "key": "eventId",
+              "value": "0"
+            }
+          ],
+          "variable": [
+            {
+              "key": "userId",
+              "value": "13"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "addComment UserNotFoundException",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response status must be 404\", function () {\r",
+              "    pm.response.to.be.notFound;    \r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response must contains body in json format\", function () {   \r",
+              "    pm.response.to.be.withBody;\r",
+              "    pm.response.to.be.json;\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"text\": \"Not User\"\r\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users/:userId/comments?eventId=0",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "users",
+            ":userId",
+            "comments"
+          ],
+          "query": [
+            {
+              "key": "eventId",
+              "value": "0"
+            }
+          ],
+          "variable": [
+            {
+              "key": "userId",
+              "value": "-3"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
