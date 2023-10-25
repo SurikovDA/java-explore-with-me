@@ -59,8 +59,8 @@ public class CommentServiceImpl implements CommentService {
             throw new ConflictException("Разрешен 1 комментарий");
         }
         log.info("Комментарий добавлен");
-        return CommentMapper.toCommentResponseDto(commentRepository.save(CommentMapper.
-                toComment(commentDto, user, event)));
+        return CommentMapper.toCommentResponseDto(commentRepository.save(CommentMapper
+                .toComment(commentDto, user, event)));
     }
 
     @Override
