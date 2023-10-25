@@ -49,7 +49,6 @@ public class CompilationServiceImpl implements CompilationService {
         return CompilationMapper.toCompilationDto(savedCompilation, eventsDto);
     }
 
-
     @Transactional
     @Override
     public void removeCompilation(Long id) {
