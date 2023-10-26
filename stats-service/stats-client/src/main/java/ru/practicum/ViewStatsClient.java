@@ -43,7 +43,7 @@ public class ViewStatsClient {
             urisToSend.append(uri).append(",");
         }
         ResponseEntity<List<ViewStatsDto>> response = restTemplate.exchange(
-                absoluteUrl + "/stats?start={start}&end={end}&uris={uris}&unique={unique}",
+                absoluteUrl + "/stats?start={dateTimeStart}&end={dateTimeEnd}&uris={uris}&unique={unique}",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {
