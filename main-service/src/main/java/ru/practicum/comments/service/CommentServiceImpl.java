@@ -98,7 +98,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public List<CommentResponseDto> get10LatestCommentsByEventId(Long eventId) {
         getEventById(eventId);
-        log.info("10 комментариев получено");
+        log.info("Передан запрос в репозиторий на получение 10 комментариев");
         return CommentMapper.toListOfCommentResponseDto(commentRepository.findTop10ByEventIdOrderByCreatedOnDesc(eventId));
     }
 
