@@ -12,6 +12,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.dto.EndpointHitDto;
 import ru.practicum.dto.ViewStatsDto;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -31,8 +33,11 @@ public class ViewStatsClient {
         restTemplate.postForLocation(absoluteUrl + "/hit", endpointHitDto);
     }
 
+    public List<ViewStatsDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String dateTimeStart = start.format(formatter);
+        String dateTimeEnd = end.format(formatter);
 
-    public List<ViewStatsDto> getStats(String start, String end, List<String> uris, boolean unique) {
         StringBuilder urisToSend = new StringBuilder();
         for (String uri : uris) {
             urisToSend.append(uri).append(",");

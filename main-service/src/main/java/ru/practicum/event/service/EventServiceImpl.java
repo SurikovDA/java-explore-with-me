@@ -1,6 +1,5 @@
 package ru.practicum.event.service;
 
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -42,7 +41,8 @@ import java.util.stream.Collectors;
 public class EventServiceImpl implements EventService {
     private final ViewStatsClient viewStatsClient;
     private static final String APP = "ewm-main-service";
-    private static final String LOWER_DATE = "1970-01-01 00:00:00";
+    private static final LocalDateTime LOWER_DATE = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
+    ;
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
@@ -328,7 +328,7 @@ public class EventServiceImpl implements EventService {
         List<String> urisToSend = List.of(String.format("/events/%s", eventId));
         List<ViewStatsDto> viewStats = viewStatsClient.getStats(
                 LOWER_DATE,
-                EventClient.formatTimeToString(LocalDateTime.now()),
+                LocalDateTime.now(),
                 urisToSend,
                 true
         );
