@@ -48,7 +48,7 @@ public class ViewStatsClient {
                 null,
                 new ParameterizedTypeReference<>() {
                 },
-                start, end, urisToSend.toString(), unique);
+                dateTimeStart, dateTimeEnd, urisToSend.toString(), unique);
 
         return response.getBody();
     }

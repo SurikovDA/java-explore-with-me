@@ -27,9 +27,7 @@ public class EventClient {
 
     public List<EventShortDto> makeEventShortDto(Collection<Event> events) {
         Map<String, Long> viewStatsMap = toViewStats(events);
-
         Map<Long, Long> confirmedRequests = getConfirmedRequests(events);
-
         List<EventShortDto> eventsDto = new ArrayList<>();
         for (Event event : events) {
             Long eventId = event.getId();
@@ -45,7 +43,6 @@ public class EventClient {
                     EventMapper.toEventDtoShort(event, reqCount, views)
             );
         }
-
         return eventsDto;
     }
 
@@ -54,14 +51,12 @@ public class EventClient {
         for (Event event : events) {
             urisToSend.add(String.format("/events/%s", event.getId()));
         }
-
         List<ViewStatsDto> viewStats = viewStatsClient.getStats(
                 START,
                 LocalDateTime.now(),
                 urisToSend,
                 true
         );
-
         return viewStats.stream()
                 .collect(Collectors.toMap(ViewStatsDto::getUri, ViewStatsDto::getHits));
     }
