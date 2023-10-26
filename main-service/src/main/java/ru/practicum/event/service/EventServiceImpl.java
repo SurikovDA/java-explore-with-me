@@ -42,7 +42,6 @@ public class EventServiceImpl implements EventService {
     private final ViewStatsClient viewStatsClient;
     private static final String APP = "ewm-main-service";
     private static final LocalDateTime LOWER_DATE = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
-    ;
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
