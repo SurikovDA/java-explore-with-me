@@ -252,7 +252,7 @@ public class EventServiceImpl implements EventService {
                 APP,
                 uri,
                 ip,
-                EventClient.formatTimeToString(LocalDateTime.now())
+                viewStatsClient.formatTimeToString(LocalDateTime.now())
         ));
         Long views = getViewsForOneEvent(eventId);
         return EventMapper.toEventFullDto(event, confirmedRequests, views);

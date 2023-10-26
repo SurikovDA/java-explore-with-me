@@ -52,4 +52,11 @@ public class ViewStatsClient {
 
         return response.getBody();
     }
+
+    public String formatTimeToString(LocalDateTime time) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return time.format(formatter);
+    }
+
+
 }

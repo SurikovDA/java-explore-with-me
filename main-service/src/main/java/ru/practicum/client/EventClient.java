@@ -12,7 +12,6 @@ import ru.practicum.ViewStatsClient;
 import ru.practicum.dto.ViewStatsDto;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,14 +22,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EventClient {
     private static final LocalDateTime START = LocalDateTime.of(1970, 1, 1, 0, 0, 0);
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final ParticipationRequestRepository requestRepository;
     private final ViewStatsClient viewStatsClient;
-
-
-    public static String formatTimeToString(LocalDateTime time) {
-        return time.format(FORMATTER);
-    }
 
     public List<EventShortDto> makeEventShortDto(Collection<Event> events) {
         Map<String, Long> viewStatsMap = toViewStats(events);
