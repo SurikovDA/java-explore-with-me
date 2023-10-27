@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ViewStatsClient;
-import ru.practicum.client.EventClient;
 import ru.practicum.dto.EndpointHitDto;
 import ru.practicum.event.dto.EventFullDto;
 import ru.practicum.event.dto.EventShortDto;
@@ -47,7 +46,7 @@ public class EventControllerPublic {
                 APP,
                 uri,
                 ip,
-                EventClient.formatTimeToString(LocalDateTime.now())
+                viewStatsClient.formatTimeToString(LocalDateTime.now())
         ));
         return eventService.getEventsPublicController(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort,
                 from, size);
